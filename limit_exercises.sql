@@ -32,5 +32,5 @@ Ziyad	    Schueller
 Claude	    Ventosa
 Alenka	    Garrabrants
 
-OFFSET = Page_Number * LIMIT
+OFFSET = Page_Number-1 * LIMIT
 */
