@@ -33,7 +33,7 @@ SELECT * FROM employees
 SELECT CONCAT(first_name, ' ',last_name) AS full_name FROM employees
 	WHERE emp_no IN (
 		SELECT emp_no FROM dept_manager
-		WHERE to_date LIKE '9999%'
+		WHERE to_date < CURDATE()
 	) AND gender = 'F';
 /*
 Isamu Legleitner
@@ -60,3 +60,17 @@ SELECT * FROM salaries
 		WHERE to_date > CURDATE()
 	
 	);
+-- Bonus 1
+SELECT dept_name FROM departments
+	WHERE dept_no IN (
+		SELECT dept_manager.dept_no FROM dept_manager
+	   JOIN employees ON dept_manager.emp_no = employees.emp_no
+		AND dept_manager.to_date > CURDATE()
+		AND employees.gender = 'F'
+	);
+/*
+Development
+Finance
+Human Resources
+Research
+*/
