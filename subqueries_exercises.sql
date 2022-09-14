@@ -3,7 +3,9 @@ USE employees;
 -- q1
 SELECT CONCAT(first_name, ' ', last_name) AS full_name, hire_date
 	FROM employees
-	 WHERE hire_date = (
+	JOIN dept_emp USING(emp_no)
+	WHERE to_date > CURDATE()
+	 AND hire_date = (
 	 	SELECT hire_date FROM employees
 	 	WHERE emp_no = 101010
 	 )
@@ -17,15 +19,15 @@ SELECT emp_no, title FROM titles
 		WHERE first_name = 'Aamod'
 	) AND emp_no IN (
 			SELECT emp_no FROM salaries
-			WHERE to_date LIKE '9999%'
+			WHERE to_date > CURDATE()
 	)
 	ORDER BY emp_no, from_date;
 
 -- q3
-SELECT * FROM employees
+SELECT COUNT(*) FROM employees
 	WHERE emp_no NOT IN (
 			SELECT emp_no FROM salaries
-			WHERE to_date LIKE '9999%'
+			WHERE to_date > CURDATE()
 	);
 -- There are 59,900 former employees.
 
@@ -33,7 +35,7 @@ SELECT * FROM employees
 SELECT CONCAT(first_name, ' ',last_name) AS full_name FROM employees
 	WHERE emp_no IN (
 		SELECT emp_no FROM dept_manager
-		WHERE to_date < CURDATE()
+		WHERE to_date > CURDATE()
 	) AND gender = 'F';
 /*
 Isamu Legleitner
@@ -57,8 +59,7 @@ SELECT * FROM salaries
 		SELECT MAX(salary) FROM salaries
 			WHERE to_date > CURDATE()
 	) - (SELECT STD(salary) FROM salaries
-		WHERE to_date > CURDATE()
-	
+		WHERE to_date > CURDATE()x
 	);
 -- Bonus 1
 SELECT dept_name FROM departments
